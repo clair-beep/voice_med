@@ -20,6 +20,12 @@ Install my-project with npm
   npm install
 ```
 
+## Test me
+
+```bash
+  npm test
+```
+
 ## Deployment
 
 To deploy this project run

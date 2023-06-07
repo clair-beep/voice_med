@@ -1,10 +1,14 @@
 import { Request, Response } from 'express';
 import Song from '../models/Song';
 import { isValidObjectId } from 'mongoose';
+import { searchAndPaginationMiddleware } from '../middleware/pagination'; // Import the ExtendedRequest interface
 
 export const getSongs = async (req: Request, res: Response): Promise<void> => {
   try {
-    const songs = await Song.find();
+    const { startIndex, endIndex } = req.pagination;
+    const songs = await Song.find()
+      .skip(startIndex)
+      .limit(endIndex - startIndex);
 
     res.status(200).json(songs);
   } catch (error) {
@@ -38,7 +42,7 @@ export const createSong = async (
 ): Promise<void> => {
   try {
     const { artist, album, title, length, track } = req.body;
-
+    console.log(req.body);
     if (
       !artist ||
       typeof artist !== 'string' ||
@@ -60,7 +64,7 @@ export const createSong = async (
     const newSong = new Song({ artist, album, title, length, track });
 
     const savedSong = await newSong.save();
-
+    console.log(savedSong);
     res.status(201).json(savedSong);
   } catch (error) {
     res.status(500).json({ error: 'Failed to save song data' });

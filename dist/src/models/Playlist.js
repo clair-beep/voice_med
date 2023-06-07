@@ -23,10 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importStar(require("mongoose"));
-const playlistSchema = new mongoose_1.Schema({
+var mongoose_1 = __importStar(require("mongoose"));
+var playlistSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    songs: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Song', required: true }],
+    songs: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Song', required: true }], // Reference to Song model
 });
-const Playlist = mongoose_1.default.model('Playlist', playlistSchema);
+var Playlist = mongoose_1.default.model('Playlist', playlistSchema);
 exports.default = Playlist;

@@ -26,12 +26,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const routes = (0, express_1.default)();
-const songController = __importStar(require("../controllers/songs"));
-const playlistController = __importStar(require("../controllers/playlist"));
-const testController = __importStar(require("../controllers/test"));
-routes.get('/song', songController.getSongs);
+var express_1 = __importDefault(require("express"));
+// Create Express server
+var routes = (0, express_1.default)();
+var musicDataController = __importStar(require("../controllers/index"));
+var songController = __importStar(require("../controllers/songs"));
+var playlistController = __importStar(require("../controllers/playlist"));
+var pagination_1 = require("../middleware/pagination");
+routes.get('/', musicDataController.showMeTheMusic);
+routes.get('/song', pagination_1.searchAndPaginationMiddleware, songController.getSongs);
 routes.get('/song/:id', songController.getSong);
 routes.post('/song', songController.createSong);
 routes.delete('/song/:id', songController.deleteSong);
@@ -40,5 +43,4 @@ routes.get('/playlist/:id', playlistController.getPlaylist);
 routes.post('/playlist', playlistController.createPlaylist);
 routes.delete('/playlist/:id', playlistController.deletePlaylist);
 routes.put('/playlist/:id', playlistController.addSongsToPlaylist);
-routes.get('/user', testController.getThis);
 exports.default = routes;

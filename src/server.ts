@@ -1,25 +1,26 @@
 import express from 'express';
 import routes from './routes/index';
-import connectDB from './config/db';
+import { connectDB } from './config/db';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import { engine } from 'express-handlebars';
+import path from 'path';
 
-dotenv.config();
+function createServer() {
+  dotenv.config();
 
-const app = express();
-const port = 3001;
+  const app = express();
 
-app.use(bodyParser.json());
+  app.use(bodyParser.json());
 
-connectDB();
+  connectDB();
 
-app.get('/', (req, res) => {
-  res.send('Rest API is workingsss');
-});
+  app.use(express.static('public'));
 
-app.use('/', routes);
+  app.use('/', routes);
 
-app.listen(port, () => {
-  const url = `http://localhost:${port}`;
-  console.log(`Server started on ${url}`);
-});
+  return app; // Return the app instance
+}
+
+export default createServer;
+//comment

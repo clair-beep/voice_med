@@ -12,4 +12,15 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-export default connectDB;
+
+const closeDB = async () => {
+  try {
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed');
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
+
+export { connectDB, closeDB };
